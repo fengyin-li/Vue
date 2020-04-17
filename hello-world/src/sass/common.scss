@@ -1,0 +1,178 @@
+.cp{
+    cursor: pointer;
+}
+.shop_color{//主题色
+    color: blue;
+}
+.exit_color{//退出提示色
+    color: red;
+}
+%ellipse {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+%oh{
+    overflow: hidden;
+}
+%flex {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
+%flex_wrap {
+	-webkit-flex-wrap: wrap;
+	-moz-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	-o-flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+%flex_nwrap {
+	-webkit-flex-wrap: nowrap;
+	-moz-flex-wrap: nowrap;
+	-ms-flex-wrap: nowrap;
+	-o-flex-wrap: nowrap;
+	flex-wrap: nowrap;
+}
+%flex_center {
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-moz-justify-content: center;
+	-ms-justify-content: center;
+	-o-justify-content: center;
+	justify-content: center;
+}
+%flex_end {
+	-webkit-box-pack: flex-end;
+	-webkit-justify-content: flex-end;
+	-moz-justify-content: flex-end;
+	-ms-justify-content: flex-end;
+	-o-justify-content: flex-end;
+	justify-content: flex-end;
+}
+%space-between {
+	-webkit-box-pack: space-between;
+	-webkit-justify-content: space-between;
+	-moz-justify-content: space-between;
+	-ms-justify-content: space-between;
+	-o-justify-content: space-between;
+	justify-content: space-between;
+}
+%flex_1 {
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	-webkit-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+}
+%space-around {
+	-webkit-box-pack: space-around;
+	-webkit-justify-content: space-around;
+	-moz-justify-content: space-around;
+	-ms-justify-content: space-around;
+	-o-justify-content: space-around;
+	justify-content: space-around;
+}
+%align-items {
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-moz-align-items: center;
+	-ms-align-items: center;
+	-o-align-items: center;
+	align-items: center;
+}
+%align-content-stretch{
+    -webkit-box-align: stretch;
+	-webkit-align-content: stretch;
+	-moz-align-content: stretch;
+	-ms-align-content: stretch;
+	-o-align-content: stretch;
+	align-content: stretch;
+}
+%align-content-center{
+    -webkit-box-align: center;
+	-webkit-align-content: center;
+	-moz-align-content: center;
+	-ms-align-content: center;
+	-o-align-content: center;
+	align-content: center;
+}
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    font-size: 100%;
+    background: transparent;
+    outline-style: none;
+    list-style: none;
+    resize:none ;
+}
+div{
+    box-sizing: border-box;
+}
+.img,span{
+    display: block;
+    border: none;
+}
+
+//页面顶部
+.container_header{
+    background: #F2F2F2;
+    width: 100%;
+    height: 34px;
+    @extend %flex;
+    @extend %flex_center;
+    .container_header_main{
+        width: 1200px;
+        height: 100%;
+        line-height: 34px;
+        @extend %flex;
+        @extend %space-between;
+        .left{
+            height: 34px;
+            line-height: 34px;
+            font-size: 12px;
+            color: #666;
+            @extend %flex;
+            .iosdown{
+                @extend %flex;
+                span{
+                    margin-right: 5px;
+                }
+                i{
+                    color: #666;
+                    margin-right: 33px;
+                }
+                i:nth-child(3){
+                    font-size: 24px;
+                }
+            }
+            .needlogin{
+                @extend %flex;
+                span{
+                    margin-right: 30px;
+                }
+            }
+            .logining{
+                @extend %flex;
+                i{
+                    margin: 0 10px;
+                }
+            }
+        }
+        .center{
+            color: #666;
+        }
+        .right{
+            line-height: 34px;
+            color: #666;
+            @extend %flex;
+            p{
+                margin-right: 5px;
+            }
+        }
+    }
+}
