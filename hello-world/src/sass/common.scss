@@ -2,7 +2,10 @@
     cursor: pointer;
 }
 .shop_color{//主题色
-    color: blue;
+    color: #19A3F5;
+}
+.shop_background{
+    background:#19A3F5;
 }
 .exit_color{//退出提示色
     color: red;
@@ -99,7 +102,10 @@
 	-o-align-content: center;
 	align-content: center;
 }
-html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+%tc{
+    text-align: center;
+}
+html, body, div, span, object,input, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
     margin: 0;
     padding: 0;
     border: none;
@@ -113,11 +119,13 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 div{
     box-sizing: border-box;
 }
-.img,span{
+img,span{
     display: block;
     border: none;
 }
-
+a{
+    text-decoration:none;
+}
 //页面顶部
 .container_header{
     background: #F2F2F2;
@@ -129,25 +137,39 @@ div{
         width: 1200px;
         height: 100%;
         line-height: 34px;
+        position: relative;
         @extend %flex;
-        @extend %space-between;
+        @extend %flex_center;
         .left{
             height: 34px;
             line-height: 34px;
             font-size: 12px;
             color: #666;
+            position: absolute;
+            top: 0;
+            left: 0;
             @extend %flex;
             .iosdown{
+                position: relative;
                 @extend %flex;
                 span{
                     margin-right: 5px;
                 }
                 i{
                     color: #666;
-                    margin-right: 33px;
+                    margin-right: 20px;
+                    font-size: 12px;
                 }
-                i:nth-child(3){
+                i:nth-child(4){
                     font-size: 24px;
+                }
+                .APP_pop{
+                    position: absolute;
+                    top: 34px;
+                    left: 0;
+                    z-index: 1;
+                    width: auto;
+                    height: auto;
                 }
             }
             .needlogin{
@@ -169,9 +191,188 @@ div{
         .right{
             line-height: 34px;
             color: #666;
+            position: absolute;
+            top:0;
+            right: 0;
             @extend %flex;
             p{
                 margin-right: 5px;
+            }
+            .complaint_tel{
+                display: none;
+                position: absolute;
+                top: 34px;
+                right: 0;
+                width: auto;
+                height: 40px;
+                line-height: 40px;
+                font-size: 16px;
+                background: #fff;
+                color: #333;
+                box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
+                padding: 0 20px;
+                z-index: 1;
+            }
+            p:nth-child(2):hover + .complaint_tel{
+               display: block;
+            }
+        }
+    }
+}
+//页面头部
+.container_top{
+    width: 100%;
+    height: 180px;
+    @extend %flex;
+    @extend %flex_center;
+    .container_top_main{
+        width: 1200px;
+        height: 180px;
+        padding-top: 40px;
+        .container_top_top{
+            width: 1200px;
+            height: 100px;
+            position: relative;
+            @extend %flex;
+            @extend %flex_center;
+            .log{
+                width:230px;
+                height: 100px;
+                position: absolute;
+                left: 0;
+                top: 0;
+                img{
+                    width: 230px;
+                    height: 45px;
+                    margin-bottom: 5px;
+                }
+                a{
+                    width: 230px;
+                    height: 16px;
+                    line-height: 16px;
+                    overflow: hidden;
+                    color: #333;
+                }
+            }
+            .search{
+                width: 540px;
+                height: 70px;
+                .search_top{
+                    width: 540px;
+                    height:40px;
+                    border:2px solid #19A3F5;
+                    @extend %flex;
+                    @extend %space-between;
+                    i{
+                        font-size: 18px;
+                        color: #999;
+                        line-height: 35px;
+                        margin:0 20px;
+                    }
+                    input{
+                        width: 370px;
+                        height: 36px;
+                        font-size: 14px;
+                    }
+                    input::placeholder{
+                        color:#999;
+                        font-size: 14px;;
+                    }
+                    .search_button{
+                        width: 108px;
+                        height: 36px;
+                        background: #19A3F5;
+                        line-height: 36px;
+                        @extend %tc;
+                        color:#fff;
+                        font-size: 18px;
+                    }
+                }
+                .search_bot{
+                    width: 540px;
+                    height: 30px;
+                    line-height: 30px;
+                    font-size: 14px;
+                    color: #666;
+                    @extend %flex;
+                    overflow: hidden;
+                    p{
+                        margin-right: 10px;
+                    }
+                }
+            }
+            .buycar{
+                width:168px;
+                height:42px;
+                border: 1px solid #666;
+                position: absolute;
+                top: 0;
+                right: 0;
+                line-height: 42px;
+                color: #999;
+                @extend %flex;
+                @extend %flex_center;
+
+                i{
+                    margin-right: 15px;
+                    font-size: 28px;
+                }
+                p{
+                    font-size: 16px;
+                }
+                p:nth-child(3){
+                    color: red;
+                }
+            }
+        }
+        .container_top_bot{
+            width: 1200px;
+            height: 40px;
+            @extend %flex;
+            @extend %space-between;
+            .left{
+                @extend %flex;
+                .nav{
+                    width:210px;
+                    height:40px;
+                    line-height: 40px;
+                    @extend %tc;
+                    font-size:16px;
+                    color:#fff;
+                } 
+                ul{
+                    height: 40px;
+                    line-height:40px;
+                    @extend %flex;
+                    li{
+                        p{
+                            margin-left: 30px;
+                            color: #333;
+                            font-size:16px;
+                        }
+                    }
+                }
+            }
+            .right{
+                height: 50px;
+                @extend %flex;
+                i{
+                    margin-right: 10px;
+                    line-height: 50px;
+                    font-size: 35px;
+                    font-weight: bold;
+                }
+                .tel{
+                    height:50px;
+                    padding-top: 5px;
+                    p{
+                        font-size:18px;
+                    }
+                    span{
+                        font-size:12px;
+                        color: #999;
+                    }
+                }
             }
         }
     }
