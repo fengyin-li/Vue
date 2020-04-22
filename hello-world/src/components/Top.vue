@@ -26,7 +26,7 @@
             </div>
             <div class="container_top_bot">
                 <div class="left">
-                    <div class="nav shop_background">全部产品分类</div>
+                    <div class="nav shop_background" @mouseover="navAdd(1)" @mouseleave="navLeave(1)">全部产品分类</div>
                     <ul>
                         <li>
                             <p>首页</p>
@@ -44,7 +44,6 @@
                             <p>积分商城</p>
                         </li>
                     </ul>
-
                 </div>
                 <div class="right">
                     <i class="iconfont icondianhua shop_color"></i>
@@ -52,6 +51,18 @@
                         <p class="shop_color">400-668-6688</p>
                         <span>周一至周日 8:30-18:00</span>
                     </div>
+                </div>
+                <ul class="nav_list" @mouseenter="navAdd(2)" @mouseleave="navLeave(2)" v-show="navlistshow">
+                    <li v-for="(item,index) in list" :key="index" @mouseenter="changeNav(index)">
+                        <p>{{item.list1}}</p>
+                        <p v-for="item1 in item.list2" :key="item1">{{item1}}</p>
+                    </li>
+                </ul>
+                <div class="list_view" @mouseenter="navAdd(3)" @mouseleave="navLeave(3)" v-show="navviewshow">
+                    <p>{{navview.list1}}</p>
+                    <ul>
+                        <li v-for="(item,index) in navview.list2" :key="index">{{item}}</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -61,13 +72,58 @@
 <script>
 
 export default {
-    name: 'index',
+    name: 'top',
+    data(){
+        return {
+            list:[{
+                id:1,
+                list1:'神经科药',
+                list2:['抑郁症','帕金森']
+            },{
+                id:2,
+                list1:'中科药',
+                list2:['饮片','养生']
+            }],
+            navall:false,
+            navlist:false,
+            navlistview:false,
+            navviewnum:0,
+        }
+    },
+    computed:{
+        navlistshow(){
+            return (this.navall || this.navlist || this.navlistview)
+        },
+        navviewshow(){
+            return (this.navlist || this.navlistview)
+        },
+        navview(){
+            return this.list[this.navviewnum]
+        }
+    },
     mounted(){
-       this.init();
+        this.init();
     },
     methods:{
         init(){
             this.$emit('headershow',true)
+        },
+        navAdd(sum){
+            sum == 1 ? this.navall = true
+            :sum == 2 ? this.navlist = true
+            :sum == 3 ? this.navlistview = true
+            : ""
+        },
+        navLeave(sum){
+            setTimeout(() => {
+                sum == 1 ? this.navall = false
+                :sum == 2 ? this.navlist = false
+                :sum == 3 ? this.navlistview = false
+                : ""
+            }, 80);
+        },
+        changeNav(num){
+            this.navviewnum = num
         }
     }
 }

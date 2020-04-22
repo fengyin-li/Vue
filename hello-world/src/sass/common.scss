@@ -261,6 +261,7 @@ a{
                     width: 540px;
                     height:40px;
                     border:2px solid #19A3F5;
+                    border-radius: 5px;
                     @extend %flex;
                     @extend %space-between;
                     i{
@@ -328,6 +329,7 @@ a{
         .container_top_bot{
             width: 1200px;
             height: 40px;
+            position: relative;
             @extend %flex;
             @extend %space-between;
             .left{
@@ -339,6 +341,7 @@ a{
                     @extend %tc;
                     font-size:16px;
                     color:#fff;
+                    border-radius: 5px 5px 0 0;
                 } 
                 ul{
                     height: 40px;
@@ -358,7 +361,7 @@ a{
                 @extend %flex;
                 i{
                     margin-right: 10px;
-                    line-height: 50px;
+                    line-height: 45px;
                     font-size: 35px;
                     font-weight: bold;
                 }
@@ -371,6 +374,77 @@ a{
                     span{
                         font-size:12px;
                         color: #999;
+                    }
+                }
+            }
+            .nav_list{
+                width: 210px;
+                height: auto;
+                background: #3C3D46;
+                position: absolute;
+                top:41px;
+                left: 0;
+                overflow: hidden;
+                li{
+                    width: 210px;
+                    height: 35px;
+                    @extend %tc;
+                    @extend %flex;
+                    overflow: hidden;
+                    padding-left: 20px;
+                    cursor: pointer;
+                    p{
+                        margin-right: 5px;
+                        font-size: 12px;
+                        color: #B8B8B8;
+                        line-height: 36px;
+                    }
+                    p:nth-child(1){
+                        font-size: 14px;
+                        color: #FFFFFF;
+                        line-height: 35px;
+                        margin-right: 15px;
+                    }
+                }
+                li:hover{
+                    background: #fff;
+                    padding-left: 33px;
+                }
+                li:hover p{
+                    color: #828282;
+                }
+                li:hover p:nth-child(1){
+                    color: #3C3C3C;
+                }
+            }
+            .list_view{
+                width: 600px;
+                height:auto;
+                padding: 20px;
+                position: absolute;
+                top: 41px;
+                left: 210px;
+                background: #fff;
+                color: #666;
+                p{
+                    font-size: 18px;
+                    line-height: 40px;
+                    width: auto;
+                    height: 40px;
+                    color: #333;
+                    cursor: pointer;
+                }
+                ul{
+                    overflow: hidden;
+                    margin-bottom: 20px;
+                    @extend %flex;
+                    @extend %flex_wrap;
+                    li{
+                        font-size: 12px;
+                        height: 20px;
+                        line-height: 20px;
+                        margin-right: 10px;
+                        cursor: pointer;
                     }
                 }
             }
