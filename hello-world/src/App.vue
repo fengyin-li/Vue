@@ -2,7 +2,7 @@
   <div id="app">
     <containerHeader :userlist="userlist" v-show="Header"></containerHeader>
     <containerTop v-show="Top"></containerTop>
-    <router-view @headershow="changeHeader"></router-view>
+    <router-view @headershow="changeHeader" @topshow="changeTop"></router-view>
   </div>
 </template>
 
@@ -28,6 +28,9 @@ export default {
   methods:{
     changeHeader(data){
       this.Header = data
+    },
+    changeTop(data){
+      this.Top = data
     }
   }
 }

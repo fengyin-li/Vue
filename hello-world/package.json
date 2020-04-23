@@ -24,6 +24,7 @@
     "sass-loader": "^8.0.2",
     "scss": "^0.2.4",
     "scss-loader": "0.0.1",
+    "swiper": "^5.3.7",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

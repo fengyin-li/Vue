@@ -385,6 +385,7 @@ a{
                 top:41px;
                 left: 0;
                 overflow: hidden;
+                z-index: 3;
                 li{
                     width: 210px;
                     height: 35px;
@@ -426,6 +427,7 @@ a{
                 left: 210px;
                 background: #fff;
                 color: #666;
+                z-index: 3;
                 p{
                     font-size: 18px;
                     line-height: 40px;
