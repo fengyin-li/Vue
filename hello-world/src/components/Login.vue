@@ -13,7 +13,7 @@ export default {
     methods:{
         init(){
             this.$emit('headershow',false)
-             this.$emit('topshow',false)
+            this.$emit('topshow',false)
         }
     }
 }

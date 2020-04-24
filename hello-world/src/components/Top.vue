@@ -28,7 +28,7 @@
                 <div class="left">
                     <div class="nav shop_background" @mouseover="navAdd(1)" @mouseleave="navLeave(1)">全部产品分类</div>
                     <ul>
-                        <li>
+                        <li @click="goHome">
                             <p>首页</p>
                         </li>
                         <li>
@@ -70,9 +70,10 @@
 </template>
 
 <script>
-
+import {home} from '../mixins/home'
 export default {
     name: 'top',
+    mixins:[home],
     data(){
         return {
             list:[{
