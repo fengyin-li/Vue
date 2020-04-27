@@ -75,7 +75,8 @@ export default {
     methods:{
         init(){
             this.$emit('headershow',true);
-            this.$emit('topshow',true)
+            this.$emit('topshow',true);
+            this.$emit('rightshow',true)
         },
         goImgLink(link){
             window.open(link,'_blank');

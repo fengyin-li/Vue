@@ -14,6 +14,7 @@ export default {
         init(){
             this.$emit('headershow',false)
             this.$emit('topshow',false)
+            this.$emit('rightshow',false)
         }
     }
 }

@@ -454,3 +454,67 @@ a{
         }
     }
 }
+//页面右侧
+.container_right{
+    width: 34px;
+    height: 100%;
+    position: fixed;
+    top:0;
+    right: 0;
+    background: #4D4E53;
+    z-index: 10;
+    padding-top: 60px;
+    .news{
+        width:20px;
+        height: 20px;
+        margin: 0 auto 110px;
+        i{
+            font-size: 22px;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+    }
+    .center{
+        width: 34px;
+        height: auto;
+        font-size: 14px;
+        color: #fff;
+        text-align: center;
+        .main{
+            width: 34px;
+            height: 120px;
+            @extend %flex;
+            flex-direction: column;
+            @extend %flex_center;
+            padding: 0 8px;
+            cursor: pointer;
+            i{
+                margin-bottom: 5px;
+            }
+            .buycarnum{
+                width:18px;
+                height: 18x;
+                border-radius: 50%;
+                background: #fff;
+                color: #4D4E53;
+                line-height: 18px;
+                text-align: center;
+                margin-top: 3px;
+            }
+        }
+        .main:hover{
+            background: #6A6B70;
+        }
+    }
+    .gotop{
+        width: 34px;
+        height: auto;
+        text-align: center;
+        position: absolute;
+        bottom: 10px;
+        i{
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+    }
+}

@@ -109,6 +109,9 @@ export default {
     methods:{
         init(){
             this.id = this.$route.query.id;
+            this.$emit('headershow',true)
+            this.$emit('topshow',true)
+            this.$emit('rightshow',true)
         },
         addNum(){
             this.num += 1

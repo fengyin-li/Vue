@@ -103,12 +103,12 @@ export default {
         }
     },
     mounted(){
-        this.init();
+        // this.init();
     },
     methods:{
-        init(){
-            this.$emit('headershow',true)
-        },
+        // init(){
+        //     this.$emit('topshow',true)
+        // },
         navAdd(sum){
             sum == 1 ? this.navall = true
             :sum == 2 ? this.navlist = true

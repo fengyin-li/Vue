@@ -44,9 +44,9 @@ export default {
     }
   },
   mounted(){
-    var intstyle = document.getElementsByTagName('style');
-    var html = intstyle[0].innerHTML;
-    var newcolor = ".shop_color{color: #0094D0!important;}"
+    let intstyle = document.getElementsByTagName('style');
+    const html = intstyle[0].innerHTML;
+    const newcolor = ".shop_color{color: #0094D0!important;}"
     intstyle[0].innerHTML=html+newcolor;
   },
   methods:{
