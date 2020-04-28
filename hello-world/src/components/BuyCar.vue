@@ -11,7 +11,7 @@
     <div class="goods">
         <ul>
             <li v-for="(item,index) in list" :key="index">
-                <div class="chose" :class="{active:item.status}"></div>
+                <div class="chose" :class="{active:item.status}" @click="checkOne(index)"></div>
                 <img :src="item.img" alt="">
                 <div class="name">{{item.name}}</div>
                 <div class="price">{{item.price}}</div>
@@ -22,21 +22,21 @@
                 </div>
                 <div class="disprice">{{item.disprice}}</div>
                 <div class="sumprice">{{ getSumprice(index) }}</div>
-                <div class="del">操作</div>
+                <div class="del">删除</div>
             </li>
         </ul>
 
     </div>
     <div class="goods_chose">
         <div class="left">
-            <div class="chose"></div>
+            <div class="chose" :class="{active:wholestatus}" @click="checkWhole"></div>
             <p>全选</p>
             <p>批量删除</p>
         </div>
         <div class="right">
             <div class="disprice">
                 <p>共省：</p>
-                <span>￥9.00</span>
+                <span>￥{{wholeDisprice}}</span>
             </div>
         </div>
     </div>
@@ -45,11 +45,11 @@
         <div class="right">
             <div class="text">
                 <p>一共选择了</p>
-                <span>2</span>
+                <span>{{wholeNum}}</span>
                 <p>件商品 商品总价(不含运费)：</p>
-                <span class="finprice">￥40.00</span>
+                <span class="finprice">￥{{wholeSumprice}}</span>
             </div>
-            <div class="button">去结算</div>
+            <div class="button" @click="giveMoney">去结算</div>
         </div>
     </div>
 </div>
@@ -65,6 +65,7 @@ export default {
         return {
             id:0,
             num:1,
+            wholestatus:false,
             list:[
                 {
                     status:false,
@@ -73,7 +74,7 @@ export default {
                     price:'23.00',
                     num:1,
                     disprice:'3.00',
-                    sumprice:'20.00',
+                    // sumprice:'20.00',
                 },{
                     status:false,
                     name:'999 小儿感冒颗粒 6g*10袋',
@@ -81,7 +82,7 @@ export default {
                     price:'12.00',
                     num:1,
                     disprice:'0.00',
-                    sumprice:'12.00',
+                    // sumprice:'12.00',
                 },
             ],
         }
@@ -91,7 +92,16 @@ export default {
             return (index) =>{
                 return toDecimal(this.list[index].num * Number(this.list[index].price) - Number(this.list[index].disprice))
             }
-        }
+        },
+        wholeDisprice(){
+            return toDecimal(this.list.filter(item => item.status).reduce(((total,v) => total + Number(v.disprice)),0))
+        },
+        wholeNum(){
+            return this.list.filter(item => item.status).length
+        },
+        wholeSumprice(){
+            return toDecimal(this.list.filter(item => item.status).reduce(((total,v) => total + (v.num * Number(v.price)) - Number(v.disprice)),0))
+        },
     },
     mounted(){
        this.init();
@@ -108,6 +118,23 @@ export default {
         reduceNum(index){
             this.list[index].num >= 2 ? this.list[index].num -= 1 : ''
         },
+        checkOne(index){
+            this.list[index].status = !this.list[index].status;
+            let status = true;
+            this.list.map(v =>{ !v.status ? status = false : ""});
+            this.wholestatus = status;
+        },
+        checkWhole(){
+            this.wholestatus = !this.wholestatus;
+            this.list.map(v=>{v.status = this.wholestatus})
+        },
+        giveMoney(){
+            let data = {
+                name:this.list.filter(item => item.status).map(v=> v.name),
+                price:this.wholeSumprice,
+            }
+            alert(JSON.stringify(data))
+        }
     }
 }
 </script>
