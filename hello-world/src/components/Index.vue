@@ -28,6 +28,7 @@
 
 <script>
 import Swiper from 'swiper';
+import {getIndexFloor} from '../js/api'
 export default {
     name: 'index',
     data(){
@@ -59,6 +60,7 @@ export default {
     },
     mounted(){
         this.init();
+        this.getFoller()
         new Swiper ('.swiper-container', {
             loop: true,
             speed: 500, 
@@ -77,6 +79,15 @@ export default {
             this.$emit('headershow',true);
             this.$emit('topshow',true);
             this.$emit('rightshow',true)
+        },
+        getFoller(){
+            getIndexFloor()
+            .then((data)=>{
+                console.log(data)
+            })
+            .catch(() => {
+                
+            })
         },
         goImgLink(link){
             window.open(link,'_blank');
