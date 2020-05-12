@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <containerHeader :userlist="userlist" v-show="Header"></containerHeader>
-    <containerTop v-show="Top"></containerTop>
-    <containerRight v-show="Right"></containerRight>
-    <router-view @headershow="changeHeader" @topshow="changeTop" @rightshow="changeRight"></router-view>
+    <containerHeader :userlist="userlist" v-show="this.$store.state.header"></containerHeader>
+    <containerTop v-show="this.$store.state.top"></containerTop>
+    <containerRight v-show="this.$store.state.right"></containerRight>
+    <router-view ></router-view>
   </div>
 </template>
 
@@ -24,12 +24,19 @@ export default {
       userlist:{
         name:'李晓杰',
       },//用户个人信息
-      Header:true,//页面顶部是否显示
-      Top:true,//页面上部是否显示
-      Right:true,//页面右部
+      // Header:true,//页面顶部是否显示
+      // Top:true,//页面上部是否显示
+      // Right:true,//页面右部
     }
   },
+  mounted(){
+    // this.$store.commit('changeHeader',false)
+    window.addEventListener('unload',this.saveState)
+  },
   methods:{
+    saveState(){
+      localStorage.setItem("state",JSON.stringify(this.$store.state))
+    },
     changeHeader(data){
       this.Header = data
     },

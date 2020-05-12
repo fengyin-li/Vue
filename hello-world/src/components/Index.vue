@@ -76,9 +76,9 @@ export default {
     },
     methods:{
         init(){
-            this.$emit('headershow',true);
-            this.$emit('topshow',true);
-            this.$emit('rightshow',true)
+            this.$store.commit('changeHeader',true)
+            this.$store.commit('changeTop',true)
+            this.$store.commit('changeRight',true)
         },
         getFoller(){
             getIndexFloor()

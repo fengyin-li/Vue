@@ -12,9 +12,12 @@ export default {
     },
     methods:{
         init(){
-            this.$emit('headershow',false)
-            this.$emit('topshow',false)
-            this.$emit('rightshow',false)
+            this.$store.commit('changeHeader',false)
+            this.$store.commit('changeTop',false)
+            this.$store.commit('changeRight',false)
+            // this.$emit('headershow',false)
+            // this.$emit('topshow',false)
+            // this.$emit('rightshow',false)
         }
     }
 }
