@@ -21,30 +21,17 @@ export default {
   },
   data(){
     return {
-      userlist:{
-        name:'李晓杰',
-      },//用户个人信息
-      // Header:true,//页面顶部是否显示
-      // Top:true,//页面上部是否显示
-      // Right:true,//页面右部
+      userlist:{//用户个人信息
+        name:'root',
+      },
     }
   },
   mounted(){
-    // this.$store.commit('changeHeader',false)
     window.addEventListener('unload',this.saveState)
   },
   methods:{
     saveState(){
       localStorage.setItem("state",JSON.stringify(this.$store.state))
-    },
-    changeHeader(data){
-      this.Header = data
-    },
-    changeTop(data){
-      this.Top = data
-    },
-    changeRight(data){
-      this.Right = data
     },
   }
 }

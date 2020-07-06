@@ -23,7 +23,7 @@
     </div>
     <div class="center">您好~欢迎来到时空一站式购药网！</div>
     <div class="right">
-      <p>求购专区</p>
+      <p @click="goWhere">求购专区</p>
       <p>投诉</p>
       <div class="complaint_tel">1392874923734</div>
     </div>
@@ -32,11 +32,13 @@
 </template>
 
 <script>
+import {home} from '../mixins/home'
 export default {
   name: 'containerHeader',
   props:{
     userlist:{},
   },
+  mixins:[home],
   data(){
     return {
       appimg:false,

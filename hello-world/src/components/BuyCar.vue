@@ -108,9 +108,7 @@ export default {
     },
     methods:{
         init(){
-            this.$emit('headershow',true)
-            this.$emit('topshow',true)
-            this.$emit('rightshow',true)
+            this.changeOK()
         },
         addNum(index){
             this.list[index].num += 1

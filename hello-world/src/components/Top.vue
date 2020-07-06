@@ -3,7 +3,7 @@
         <div class="container_top_main">
             <div class="container_top_top">
                 <div class="log">
-                    <img src="../image/logo.jpg">
+                    <img src="../image/logo.jpg" @click="goHome">
                     <a href="../image/topnews.jpg" target="_blank">药品经营许可证：粤BAS60D30</a>
                 </div>
                 <div class="search">
@@ -17,7 +17,7 @@
                         <p>lala</p>
                     </div>
                 </div>
-                <div class="buycar cp">
+                <div class="buycar cp" @click="goBuyCar">
                     <i class="iconfont icongouwuchekong"></i>
                     <p>购物车</p>
                     <p>0</p>
@@ -31,16 +31,13 @@
                         <li @click="goHome">
                             <p>首页</p>
                         </li>
-                        <li>
+                        <li @click="goWhere">
                             <p>家庭常备</p>
                         </li>
-                        <li>
-                            <p>医疗器械</p>
-                        </li>
-                        <li>
+                        <li @click="goWhere">
                             <p>领券中心</p>
                         </li>
-                        <li>
+                        <li @click="goWhere">
                             <p>积分商城</p>
                         </li>
                     </ul>
@@ -61,7 +58,7 @@
                 <div class="list_view" @mouseenter="navAdd(3)" @mouseleave="navLeave(3)" v-show="navviewshow">
                     <p>{{navview.list1}}</p>
                     <ul>
-                        <li v-for="(item,index) in navview.list2" :key="index">{{item}}</li>
+                        <li v-for="(item,index) in navview.list2" :key="index" @click="goSort(item)">{{item}}</li>
                     </ul>
                 </div>
             </div>
@@ -125,6 +122,14 @@ export default {
         },
         changeNav(num){
             this.navviewnum = num
+        },
+        goSort(val){
+            this.$router.push({
+                name:'sort',
+                query:{          
+                    id:val, 
+                }
+            })
         }
     }
 }

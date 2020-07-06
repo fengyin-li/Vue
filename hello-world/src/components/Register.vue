@@ -1,15 +1,18 @@
 <template>
 <div class="container">
     <div class="center">
-        <div class="header">B2B小商城登录</div>
+        <div class="header">B2B小商城注册</div>
         <div class="name">
             <el-input placeholder="请输入账号" v-model="name" clearable ></el-input>
         </div>
         <div class="pas">
             <el-input placeholder="请输入密码" v-model="password" show-password></el-input>
         </div>
+        <div class="pas">
+            <el-input placeholder="请再次输入密码" v-model="passwords" show-password></el-input>
+        </div>
         <div class="next" @click="check">确认</div>
-        <p @click="goRegister">--注册新用户--</p>
+        <p @click="goLogin">--登录--</p>
     </div>
 </div>
 </template>
@@ -17,12 +20,13 @@
 <script>
 import {home} from '../mixins/home'
 export default {
-    name: 'login',
+    name: 'register',
     mixins:[home],
     data(){
         return {
             name:'',
-            password:''
+            password:'',
+            passwords:''
         }
     },
     mounted(){
@@ -34,11 +38,11 @@ export default {
             this.$store.commit('changeTop',false)
             this.$store.commit('changeRight',false)
         },
-        goRegister(){
-            this.$router.push({name:'register'})
+        goLogin(){
+            this.$router.push({name:'login'})
         },
         check(){
-            this.name == 'root' && this.password == 123456 ? this.$router.push({name:'index'}) : this.$message('请输入正确用户名或密码！');this.name = '';this.password = ''
+            this.name != '' && this.password != ''&& this.password == this.passwords ? this.$router.push({name:'login'}) : this.$message('请输入正确格式用户名或密码！')
         }
     }
 }
@@ -56,9 +60,9 @@ export default {
         overflow: hidden;
         .center{
             width:400px;
-            height: 350px;
+            height:400px;
             margin: 0 auto;
-            margin-top:200px;
+            margin-top:180px;
             background: #fff;
             padding-top: 40px;
             overflow: hidden;
@@ -89,7 +93,7 @@ export default {
                 width: 340px;
                 height: 46px;
                 line-height: 46px;
-                margin: 0 auto 20px;
+                margin: 0 auto 10px;
                 border-radius: 4px;
                 background: #189F92;
                 color: #fff;

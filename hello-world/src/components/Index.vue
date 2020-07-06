@@ -76,9 +76,7 @@ export default {
     },
     methods:{
         init(){
-            this.$store.commit('changeHeader',true)
-            this.$store.commit('changeTop',true)
-            this.$store.commit('changeRight',true)
+            this.changeOK()
         },
         getFoller(){
             getIndexFloor()
@@ -106,7 +104,6 @@ export default {
             width:100%;
             height:440px;
             overflow: hidden;
-            border-top: 1px solid #19A3F5;
             z-index: 1;
         }
         .goods{

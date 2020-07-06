@@ -109,9 +109,7 @@ export default {
     methods:{
         init(){
             this.id = this.$route.query.id;
-            this.$emit('headershow',true)
-            this.$emit('topshow',true)
-            this.$emit('rightshow',true)
+            this.changeOK()
         },
         addNum(){
             this.num += 1
@@ -293,7 +291,6 @@ export default {
                         cursor: pointer;
                     }
                     .active{
-                        border-bottom:1px solid #0374D4;
                         color: #0374D4;
                     }
                 }

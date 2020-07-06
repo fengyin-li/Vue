@@ -4,6 +4,8 @@ import login from '../components/Login'
 import index from '../components/Index'
 import good from '../components/Good'
 import buycar from '../components/BuyCar'
+import sort from '../components/Sort'
+import register from '../components/Register'
 
 Vue.use(Router)
 
@@ -32,6 +34,16 @@ export default new Router({
       path: '/buycar',
       name: 'buycar',
       component: buycar
+    },
+    {
+      path: '/sort',
+      name: 'sort',
+      component: sort
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: register
     },
   ]
 })
