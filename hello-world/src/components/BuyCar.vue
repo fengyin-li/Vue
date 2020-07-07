@@ -130,8 +130,11 @@ export default {
             let data = {
                 name:this.list.filter(item => item.status).map(v=> v.name),
                 price:this.wholeSumprice,
-            }
-            alert(JSON.stringify(data))
+            };
+            data.name != '' && data.price > 0 ? this.$router.push({name:'pay'}) :  this.$notify({
+                message: this.$createElement('i', { style: 'color: #0094D0'}, '请选择结算对象！')
+            });
+            // alert(JSON.stringify(data))
         }
     }
 }

@@ -9,8 +9,8 @@
                 <div class="search">
                     <div class="search_top">
                         <i class="iconfont iconfangdajing"></i>
-                        <input type="text" id="search" placeholder="请输入查询的商品或关键字">
-                        <div class="search_button">搜 索</div>
+                        <input type="text" id="search" placeholder="请输入查询的商品或关键字" @keyup.enter="goWhere">
+                        <div class="search_button" @click="goWhere">搜 索</div>
                     </div>
                     <div class="search_bot">
                         <p>热门搜索：</p>

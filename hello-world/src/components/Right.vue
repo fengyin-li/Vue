@@ -4,8 +4,8 @@
             <i class="iconfont iconxiaoxi" title="消息中心"></i>
         </div>
         <div class="center">
-            <div class="main">我的订单</div>
-            <div class="main">个人中心</div>
+            <div class="main"  @click="goOrder">我的订单</div>
+            <div class="main"  @click="goWhere">个人中心</div>
             <div class="main" @click="goBuyCar">
                 <i class="iconfont icongouwuchekong"></i>
                 <p>购物车</p>
@@ -18,8 +18,10 @@
     </div>
 </template>
 <script>
+import {home} from '../mixins/home'
 export default {
     name: 'containerRight',
+    mixins:[home],
     data(){
         return {
             
@@ -29,9 +31,6 @@ export default {
 
     },
     methods:{
-        goBuyCar(){
-            this.$router.push({path:'/buycar'})
-        }
     },
 }
 </script>

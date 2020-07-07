@@ -6,6 +6,9 @@ import good from '../components/Good'
 import buycar from '../components/BuyCar'
 import sort from '../components/Sort'
 import register from '../components/Register'
+import pay from '../components/Pay'
+import order from '../components/Order'
+import orderview from '../components/OrderView'
 
 Vue.use(Router)
 
@@ -44,6 +47,21 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: register
+    }, 
+    {
+      path: '/pay',
+      name: 'pay',
+      component: pay
+    },
+    {
+      path: '/order',
+      name: 'order',
+      component: order
+    },
+    {
+      path: '/orderview',
+      name: 'orderview',
+      component: orderview
     },
   ]
 })

@@ -29,8 +29,10 @@
 <script>
 import Swiper from 'swiper';
 import {getIndexFloor} from '../js/api'
+import {home} from '../mixins/home'
 export default {
     name: 'index',
+    mixins:[home],
     data(){
         return {
             list:[
@@ -59,7 +61,7 @@ export default {
         }
     },
     mounted(){
-        this.init();
+        this.changeOK();
         this.getFoller()
         new Swiper ('.swiper-container', {
             loop: true,
@@ -75,9 +77,6 @@ export default {
         })      
     },
     methods:{
-        init(){
-            this.changeOK()
-        },
         getFoller(){
             getIndexFloor()
             .then((data)=>{
