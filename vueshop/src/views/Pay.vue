@@ -23,7 +23,32 @@
                 <el-input placeholder="请输入备注信息" v-model="remarks"  clearable style="width:300px;"></el-input>
             </div>
             <div class="title">商品清单</div>
-            <div class="header">
+            <el-table
+            :data="list"
+            border
+            style="width: 100%">
+                <el-table-column
+                    prop="name"
+                    label="商品名称">
+                </el-table-column>
+                <el-table-column
+                    prop="price"
+                    label="价格">
+                </el-table-column>
+                <el-table-column
+                    prop="num"
+                    label="数量">
+                </el-table-column>
+                <el-table-column
+                    prop="disprice"
+                    label="优惠">
+                </el-table-column>
+                <el-table-column
+                    prop="sumprice"
+                    label="小计">
+                </el-table-column>
+            </el-table>
+            <!-- <div class="header">
                 <p style="width:300px">商品名称</p>
                 <p>价格</p>
                 <p>数量</p>
@@ -38,7 +63,7 @@
                     <p>{{item.disprice}}</p>
                     <p>{{item.sumprice}}</p>
                 </li>
-            </ul>
+            </ul> -->
             <div class="title">订单汇总</div>
             <div class="someprice">
                 <span>￥{{price.payprice}}</span>

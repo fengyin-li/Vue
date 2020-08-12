@@ -5,7 +5,7 @@
         </div>
         <div class="center">
             <div class="main"  @click="goOrder">我的订单</div>
-            <div class="main"  @click="goWhere">个人中心</div>
+            <div class="main"  @click="goUserCenter">个人中心</div>
             <div class="main" @click="goBuyCar">
                 <i class="iconfont icongouwuchekong"></i>
                 <p>购物车</p>

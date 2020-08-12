@@ -20,7 +20,7 @@
     </div>
 </template>
 <script>
-import {home} from '../mixins/home'
+import {home} from '../../mixins/home'
 export default {
     name: 'order',
     mixins:[home],
@@ -48,6 +48,7 @@ export default {
     .container{
         width: 100%;
         height: 100%;
+        padding: 16px;
         .title{
             width: 1200px;
             height: 50px;

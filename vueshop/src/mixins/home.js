@@ -6,22 +6,29 @@ export const home = {
         }
     },
     methods:{
-        goHome(){
+        async goHome(){
             this.$router.push({name:'index'})
         },
-        goWhere(){
+        async goWhere(){
             this.$message('暂未开放！');
         },
-        goBuyCar(){
+        async goBuyCar(){
             this.$router.push({name:'buycar'})
         },
-        changeOK(){
+        async goUserCenter(){
+            this.$router.push({name:'userCenter',params:{
+                id:"0"
+            }})
+        },
+        async changeOK(){
             this.$store.commit('changeHeader',true)
             this.$store.commit('changeTop',true)
             this.$store.commit('changeRight',true)
         },
-        goOrder(){
-            this.$router.push({path:'/order'})
+        async goOrder(){
+            this.$router.push({name:'userCenter',params:{
+                id:"1"
+            }})
         }
     }
 }
