@@ -8,6 +8,7 @@
             <i class="iconfont iconyoujiantou1"></i>
             <p>订单详情</p>
         </div>
+        <div class="header">订单汇总</div>
         <div class="view">
             <p>订单编号：{{list.id}}</p>
             <p>订单金额：{{list.orderprice}}</p>
@@ -16,22 +17,32 @@
             <p>订单优惠金额：{{list.disprice}}</p>
             <p>订单状态：{{list.status}}</p>
         </div>
-        <div class="goods">
-                <p style="width:300px">商品名称</p>
-                <p>价格</p>
-                <p>数量</p>
-                <p>优惠</p>
-                <p>小计</p>
-        </div>
-        <ul>
-            <li v-for="(item,index) in list.goodlist" :key="index">
-                <p class="name" :title="item.name">{{item.name}}</p>
-                <p>{{item.price}}</p>
-                <p>{{item.num}}</p>
-                <p>{{item.disprice}}</p>
-                <p>{{item.sumprice}}</p>
-            </li>
-        </ul>
+        <div class="header">订单列表</div>
+        <el-table
+            :data="list.goodlist"
+            border
+            style="width: 100%">
+            <el-table-column
+                prop="name"
+                label="商品名称">
+            </el-table-column>
+            <el-table-column
+                prop="price"
+                label="价格">
+            </el-table-column>
+            <el-table-column
+                prop="num"
+                label="数量">
+            </el-table-column>
+            <el-table-column
+                prop="disprice"
+                label="优惠">
+            </el-table-column>
+            <el-table-column
+                prop="sumprice"
+                label="小计">
+            </el-table-column>
+        </el-table>
     </div>
 </template>
 <script>
@@ -68,9 +79,11 @@ export default {
 </script>
 <style lang="scss" scoped>
     .container{
-        width: 100%;
+        width: 1200px;
         height: 100%;
         padding: 16px;
+        overflow: hidden;
+        margin: 0 auto;
         .title{
             width: 1200px; 
             height: 50px;
@@ -79,6 +92,14 @@ export default {
             font-weight: bold;
             color: #666;
             margin:0 auto;
+        }
+        .header{
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            font-size: 18px;
+            margin: 10px auto;
+            color: #000;
         }
         .nav{
             width: 1200px;
@@ -106,9 +127,10 @@ export default {
             width: 1200px; 
             height: auto;
             line-height: 40px;
-            font-size: 18px;
+            font-size: 16px;
             color: #333;
             margin:0 auto;
+            padding-left: 20px;
             p{
                 width:1200px;
                 height: 40px;

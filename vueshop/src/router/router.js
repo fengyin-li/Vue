@@ -7,7 +7,6 @@ import buycar from '../views/BuyCar'
 import sort from '../views/Sort'
 import register from '../views/Register'
 import pay from '../views/Pay'
-import order from '../views/user-center/Order'
 import orderview from '../views/user-center/OrderView'
 import userCenter from '../views/userCenter'
 
@@ -58,17 +57,12 @@ export default new Router({
       component: pay
     },
     {
-      path: '/order',
-      name: 'order',
-      component: order
-    },
-    {
       path: '/orderview',
       name: 'orderview',
       component: orderview
     },
     {
-      path: '/userCenter',
+      path: '/userCenter/:id',
       name: 'userCenter',
       component: userCenter
     },

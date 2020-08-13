@@ -1,22 +1,68 @@
 <template>
-    <div class="container">
+    <div class="container-order">
         <div class="title">订单中心</div>
-        <div class="header">
-            <p>订单编号</p>
-            <p>金额</p>
-            <p>收货人</p>
-            <p>订单状态</p>
-            <p>操作</p>
+        <div class="screen">
+            <span>起止时间：</span>
+            <el-date-picker
+                v-model="time"
+                type="datetimerange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+            </el-date-picker>
+            
+            <span>订单状态：</span>
+            <el-select v-model="status" clearable placeholder="请选择">
+                <el-option
+                v-for="item in orderStatusList"
+                :key="item.id"
+                :label="item.label"
+                :value="item.id">
+                </el-option>
+            </el-select>
+            <span>收货人：</span>
+             <el-input
+                placeholder="查询收货人"
+                v-model="name"
+                clearable
+                style="width:150px">
+            </el-input>
         </div>
-        <ul>
-            <li v-for="(item,index) in list" :key="index">
-                <p>{{item.id}}</p>
-                <p>{{item.price}}</p>
-                <p>{{item.name}}</p>
-                <p>{{item.status}}</p>
-                <p class="button" @click="goOrderView(item.id)">查看详情</p>
-            </li>
-        </ul>
+        <el-table
+        :data="list"
+        border
+        style="width: 100%">
+            <el-table-column
+                prop="name"
+                label="订单编号"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="price"
+                label="金额"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="name"
+                label="收货人"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="status"
+                label="订单状态"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="sumprice"
+                label="操作"
+                align="center">
+                <template slot-scope="scope">
+                    <el-button
+                    size="mini"
+                    @click="goOrderView(scope.row.id)">查看详情</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
     </div>
 </template>
 <script>
@@ -31,6 +77,19 @@ export default {
                 price:'20',
                 name:'李三',
                 status:'未支付'
+            }],
+            time:[],
+            status:'',
+            name:'',
+            orderStatusList:[{
+                id:1,
+                label:'未支付'
+            },{
+                id:2,
+                label:'已支付'
+            },{
+                id:3,
+                label:'未发货'
             }]
         }
     },
@@ -45,12 +104,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-    .container{
+    .container-order{
         width: 100%;
         height: 100%;
         padding: 16px;
         .title{
-            width: 1200px;
+            width: 100%;
             height: 50px;
             line-height: 50px;
             font-size: 25px;
@@ -58,44 +117,14 @@ export default {
             color: #666;
             margin:0 auto;
         }
-        .header{
-            width: 1000px;
-            height: 40px;
-            line-height: 40px;
+        .screen{
             display: flex;
-            background: #0094D0;
-            margin:0 auto ;
-            p{
-                font-size: 16px;
-                color:#fff;
-                width: 200px;
-                text-align: center;
-            }
-        }
-        ul{
-            width: 1000px;
-            height:auto;
-            margin:0 auto;
-            overflow: hidden;
-            li{
-                width: 998px;
-                height: 35px;
-                line-height: 35px;
-                display: flex;
-                color:#333;
-                margin:0 auto;
-                border:1px solid #0094D0;
-                p{
-                    font-size: 14px;
-                    width: 200px;
-                    text-align: center;
-                }
-                .button{
-                    cursor: pointer;
-                }
-                .button:hover{
-                    color:red;
-                }
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 10px;
+            span{
+                font-size: 15px;
+                margin:20px 10px;
             }
         }
     }

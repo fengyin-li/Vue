@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <el-tabs tab-position="left" style="height: 200px;"  v-model="name">
+        <el-tabs tab-position="left"  v-model="name">
             <el-tab-pane label="用户中心" name="0">用户中心</el-tab-pane>
             <el-tab-pane label="订单中心" name="1">
                 <order></order>
@@ -21,14 +21,13 @@ export default {
         }
     },
     mounted(){
-        let id = this.$route.params;
-        console.log(id)
-        // this.name = id ? id : "0";
+        let id = this.$route.params.id;
+        this.name = id ? id : "0";
     },
     watch:{
-        // router(val){
-        //    console.log(val)
-        // },
+        $route(val){
+           this.name = val.params.id
+        },
     },
     methods:{
         
