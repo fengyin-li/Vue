@@ -24,8 +24,15 @@ const checkTel = (tel)=>{
     } else {
         return true
     }
-   
+}
+//获取localStorage
+const getLoca = (name) =>{
+    return localStorage.getItem(name)
+}
+//设置localStorage
+const setLoca = (name,val) =>{
+   localStorage.setItem(name,val)
 }
 export {
-    toDecimal,checkTel
+    toDecimal,checkTel,getLoca,setLoca
 }

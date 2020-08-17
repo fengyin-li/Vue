@@ -16,10 +16,26 @@ const post =(url,data)=> {
             resolve(res.data)
         }).catch(err => {
             reject(err)
+            this.$message.error('系统出错！');
         })
     })
 };
-const getIndexFloor=(data) =>post('Img/GetFloorInfo',data)//首页楼层
+// const get =(url)=> {
+//     return new Promise((resolve,reject)=>{
+//         http.get(url)
+//         .then(res => {
+//             resolve(res)
+//         }).catch(err => {
+//             reject(err)
+//         })
+//     })
+// };
+const login=(data) =>post('user/login',data)//登录
+const register=(data) =>post('user/register',data)//注册
+const getIndex=(data) =>post('good/getIndexView',data)//获取首页
+const getSwiper = (data) =>post('swiper/index',data)//获取轮播
+const getGood = (data) =>post('good/getGoodInfo',data)//获取商品信息
+const addBuyCar = (data) =>post('buycar/addList',data)//获取商品信息
 export {
-    getIndexFloor
+    login,register,getIndex,getSwiper,getGood,addBuyCar
 }

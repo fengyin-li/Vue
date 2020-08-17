@@ -13,12 +13,12 @@
     <div class="goods">
         <div class="goods_title">为 · 你 · 推 · 荐</div>
         <div class="goods_main">
-            <div class="goods_view" v-for="(item,index) in goodlist" :key="index" @click="goGoodView(item.id)">
+            <div class="goods_view" v-for="(item,index) in goodlist" :key="index" @click="goGoodView(item.goodid)">
                 <img :src="item.img">
                 <p>{{item.goodname}}</p>
                 <div class="price">
                     <p>￥{{item.price}}</p>
-                    <del>￥{{item.lastprice}}</del>
+                    <del>￥{{item.oldprice}}</del>
                 </div>
             </div>
         </div>
@@ -28,40 +28,19 @@
 
 <script>
 import Swiper from 'swiper';
-import {getIndexFloor} from '../js/api'
+import {getIndex,getSwiper} from '../js/api'
 import {home} from '../mixins/home'
 export default {
     name: 'index',
     mixins:[home],
     data(){
         return {
-            list:[
-                {img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587638516469&di=bc0b860ea82d284bd63d9e7c1ed11d7c&imgtype=0&src=http%3A%2F%2Fwww.gzdexian.com%2Fuploads%2Fimage%2F20180821%2F1534852254.jpg',
-                link:'https://cn.vuejs.org/',
-            },{
-                img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587638607723&di=c7777856796d26eca697b0fe9992ac52&imgtype=0&src=http%3A%2F%2Fpic.90sjimg.com%2Fdesign%2F00%2F18%2F13%2F49%2F8de0e7638e7c21adb34ed67a5a9521a7.jpg',
-                link:'https://www.baidu.com/',
-            }],
-            goodlist:[
-                {
-                    img:"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=23729408,3616211550&fm=26&gp=0.jpg",
-                    id:1,
-                    goodname:"珍视明 四味珍层冰硼滴眼液 15ml支装KA01",
-                    price:20.8,
-                    lastprice:28.8
-                },
-                {
-                    img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587705410503&di=951e554bd62feb4b26658d50719f4cf2&imgtype=0&src=http%3A%2F%2Fimage.jianke.com%2Fsuo%2Fupload%2Fprodimage%2F201012%2F201012415512172%2521320x320.jpg",
-                    id:2,
-                    goodname:"999 小儿感冒颗粒 6g*10袋",
-                    price:11.8,
-                    lastprice:19.8
-                }
-            ]
+            list:[],
+            goodlist:[]
         }
     },
     mounted(){
-        this.changeOK();
+        this.getSwiper();
         this.getFoller()
         new Swiper ('.swiper-container', {
             loop: true,
@@ -70,20 +49,29 @@ export default {
                 el: '.swiper-pagination',
                 clickable: true,  
             },
-            // navigation: {
-            //     nextEl: '.swiper-button-next',
-            //     prevEl: '.swiper-button-prev',
-            // },
         })      
     },
     methods:{
         getFoller(){
-            getIndexFloor()
-            .then((data)=>{
-                console.log(data)
+            getIndex()
+            .then((res)=>{
+                // console.log(res)
+                if (res.code === 1) {
+                    this.goodlist = res.data
+                } else {
+                    this.$message.error(res.msg);
+                }
             })
-            .catch(() => {
-                
+        },
+        getSwiper(){
+            getSwiper()
+            .then((res)=>{
+                // console.log(res)
+                if (res.code === 1) {
+                    this.list = res.data
+                } else {
+                    this.$message.error(res.msg);
+                }
             })
         },
         goImgLink(link){

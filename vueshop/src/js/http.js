@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Loading, Message, MessageBox } from 'element-ui'
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 const http = axios.create({
-    baseURL: "http://47.105.206.10:8077/",// 从环境进程中根据运行环境获取的api的base_url
+    baseURL: "/api",// 从环境进程中根据运行环境获取的api的base_url
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json;charset=UTF-8'
@@ -62,9 +62,9 @@ http.interceptors.response.use(function (response) {
         return Promise.resolve(response)
     }
     if (!response.data.success) {
-        Message({
-            message: response.data.message,
-        });
+        // Message({
+        //     message: response.data.message,
+        // });
         return Promise.resolve(response)
     }
     // 对响应数据做点什么

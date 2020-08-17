@@ -7,31 +7,31 @@
     </div>
     <div class="main">
         <div class="imgs">
-            <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=23729408,3616211550&fm=26&gp=0.jpg">
+            <img :src="list.img ? list.img : 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597687188562&di=3cabdcdaead76adfbfbb229012321eac&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Fsinacn%2F20170729%2F9cd1-fyiphwc3656919.jpg'">
         </div>
         <div class="goodview">
-            <div class="title">{{list.name}}</div>
-            <div class="title_view">{{list.nameview}}</div>
+            <div class="title">{{list.goodname}}</div>
+            <div class="title_view">{{list.suit}}</div>
             <div class="good_view">
                 <span>通用名称：</span>
-                <p>{{list.name}}</p>
+                <p>{{list.goodname}}</p>
             </div>
             <div class="good_view">
                 <span>产品编号：</span>
-                <p>{{list.goodid}}</p>
+                <p>{{list.factoryId}}</p>
             </div>
             <div class="good_view">
                 <span>批准文号：</span>
-                <p>国药准字{{list.symbol}}（国家食药总局查询）</p>
+                <p>{{list.approvalId}}（国家食药总局查询）</p>
             </div>
             <div class="good_view">
                 <span>抢购价格：</span>
-                <p class="price">￥{{list.price}}</p>
+                <p class="price">￥{{specs.oneprice}}</p>
             </div>
             <div class="good_view">
                 <span>产品规格：</span>
                 <ul class="good_specs">
-                    <li :class="{active:item.status}" v-for="(item,index) in list.spec" :key="index" @click="checkSpec(index)">{{item.name}}</li>
+                    <li :class="{active:specsActive == index}" v-for="(item,index) in list.specs" :key="index" @click="checkSpec(index)">{{item.specs}}</li>
                 </ul>
             </div>
             <div class="good_view">
@@ -40,7 +40,7 @@
             </div>
             <div class="good_view">
                 <span>库 存：</span>
-                <p>{{list.stock}}</p>
+                <p>{{specs.nums}}</p>
             </div>
             <div class="good_view">
                 <span>购买数量：</span>
@@ -72,6 +72,8 @@
 
 <script>
 import {home} from '../mixins/home'
+import {getGood,addBuyCar} from '../js/api'
+import {getLoca} from '../js/common'
 export default {
     name: 'good',
     mixins:[home],
@@ -79,6 +81,7 @@ export default {
         return {
             id:0,
             num:1,
+            specsActive:0,
             list:{
                 name:'四味珍层冰硼滴眼液(珍视明滴眼液)',
                 nameview:'清热解痉，去翳明目。用于肝阴不足，肝气偏盛所致的不能久视、青少年远视力下降；青少年假性近视、视力疲劳。',
@@ -100,8 +103,25 @@ export default {
             },
             goodtitle:['商品介绍','说明书','商品评价'],
             goodsuit:0,
-            goodviewlist:['商品介绍','说明书','商品评价']
+            goodviewlist:['商品介绍','说明书','商品评价'],       
         }
+    },
+    computed:{
+        specs(){
+            return this.list.specs ? this.list.specs[this.specsActive]:[]
+        },
+    },
+    watch:{
+        specsActive(val){
+            this.num = this.list.specs[val].specs;
+        },
+        num(val){
+            // console.log(val)
+            let index = this.specsActive;
+            isNaN(val) ? this.num = this.list.specs[index].specs :
+            !(/(^[1-9]\d*$)/.test(val)) ? this.num = this.list.specs[index].specs:
+            ''
+        },
     },
     mounted(){
        this.init();
@@ -109,37 +129,58 @@ export default {
     methods:{
         init(){
             this.id = this.$route.query.id;
-            this.changeOK()
+            this.getGood()
         },
-        addNum(){
-            this.num += 1
-        },
-        reduceNum(){
-            this.num >= 2 ? this.num -= 1 : ''
-        },
-        checkSpec(num){
-            this.list.spec.map((v,index) => { v.status = index == num});
+        getGood(){
+            let data = {
+                id:this.id,
+            }
+            getGood(data)
+            .then((res)=>{
+                console.log(res)
+                if (res.code === 1) {
+                    this.list = res.data.goodList;
+                    this.num = this.list.specs[0].specs;
+                } else {
+                    this.$message.error(res.msg);
+                }
+            })
         },
         goBuyCar(){
-            const data = {
-                id:this.id,
-                num:this.num,
-                spec:this.list.spec.filter(item => item.status)[0].name
+            let data = {
+                userId:getLoca('userId'),
+                goodId:this.list.goodid,
+                goodnum:this.num,
+                goodspecs:this.list.specs[this.specsActive].specs
             }
-            alert(JSON.stringify(data))
+            console.log(data)
+            addBuyCar(data)
+            .then((res)=>{
+                console.log(res)
+                if (res.code === 1) {
+                    this.$message.success(res.msg);
+                } else {
+                    this.$message.error(res.msg);
+                }
+            })
+        },
+        checkSpec(index){
+            this.specsActive = index
         },
         checkSuit(num){
             this.goodsuit = num
         },
-    },
-    watch:{
-        num:function(val){
-            isNaN(val) ? this.num = 1 :
-            val >200 ? this.num = 200 :
-            val <1 ? this.num = 1 :
-            !(/(^[1-9]\d*$)/.test(val)) ? this.num = 1:
-            ''
+        addNum(){
+            let list = this.list.specs[this.specsActive];
+            let newVal = Number(this.num) + Number(list.specs)
+            this.num = newVal > list.nums ? this.num : newVal
         },
+        reduceNum(){
+            let list = this.list.specs[this.specsActive];
+            let newVal = Number(this.num) - Number(list.specs)
+            this.num = newVal < list.specs ? this.num : newVal
+        },
+        
     },
 }
 </script>
