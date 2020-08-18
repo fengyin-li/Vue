@@ -31,11 +31,13 @@ const post =(url,data)=> {
 //     })
 // };
 const login=(data) =>post('user/login',data)//登录
+const registerCode=(data) =>post('user/getCode',data)//注册验证码
 const register=(data) =>post('user/register',data)//注册
 const getIndex=(data) =>post('good/getIndexView',data)//获取首页
 const getSwiper = (data) =>post('swiper/index',data)//获取轮播
+const getNav = (data) =>post('sort/getList',data)//获取轮播
 const getGood = (data) =>post('good/getGoodInfo',data)//获取商品信息
-const addBuyCar = (data) =>post('buycar/addList',data)//获取商品信息
+const addBuyCar = (data) =>post('buycar/addList',data)//添加购物车
 export {
-    login,register,getIndex,getSwiper,getGood,addBuyCar
+    login,registerCode,register,getIndex,getSwiper,getGood,addBuyCar,getNav
 }

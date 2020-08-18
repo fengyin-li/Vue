@@ -153,7 +153,7 @@ export default {
                 goodnum:this.num,
                 goodspecs:this.list.specs[this.specsActive].specs
             }
-            console.log(data)
+            // console.log(data)
             addBuyCar(data)
             .then((res)=>{
                 console.log(res)

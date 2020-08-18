@@ -8,9 +8,11 @@
         <div class="pas">
             <el-input placeholder="请输入密码" v-model="password" show-password></el-input>
         </div>
-        <div class="pas">
-            <el-input placeholder="请再次输入密码" v-model="passwords" show-password></el-input>
+        <div class="name" style="display:flex;justify-content:space-between;">
+            <el-input placeholder="请输入验证码" v-model="code" clearable style="width:150px;"></el-input>
+            <el-button :type="codetype" @click="getCode">{{codemsg}}</el-button>
         </div>
+
         <div class="next" @click="check">确认</div>
         <p @click="goLogin">--登录--</p>
     </div>
@@ -19,6 +21,8 @@
 
 <script>
 import {home} from '../mixins/home'
+import {checkMail} from '../js/common'
+import {registerCode,register} from '../js/api'
 export default {
     name: 'register',
     mixins:[home],
@@ -26,7 +30,9 @@ export default {
         return {
             name:'',
             password:'',
-            passwords:''
+            code:'',
+            codetype:'primary',
+            codemsg:'获取验证码'
         }
     },
     mounted(){
@@ -41,8 +47,56 @@ export default {
         goLogin(){
             this.$router.push({name:'login'})
         },
+        getCode(){
+            if (this.name == "") {
+                this.$message.error('请输入账号！');
+                return false
+            }
+            if (!checkMail(this.name)) {
+                this.$message.error('请输入正确格式邮箱！');
+                return false
+            }
+            let data = {
+                us:this.name
+            }
+            registerCode(data)
+            .then((res)=>{
+                console.log(res)
+                if (res.code === 1) {
+                    this.codemsg = "验证码已发送！";
+                    this.codetype = "warning"
+                } else {
+                    this.$message.error(res.msg);
+                }
+            })
+        },
         check(){
-            this.name != '' && this.password != ''&& this.password == this.passwords ? this.$router.push({name:'login'}) : this.$message('请输入正确格式用户名或密码！')
+            if (this.name == "") {
+                this.$message.error('请输入账号！');
+                return false
+            }
+            if (this.password == '') {
+                this.$message.error('请输入密码！');
+                return false
+            }
+            if (this.code == '') {
+                this.$message.error('请输入验证码！');
+                return false
+            }
+            let data = {
+                us:this.name,
+                ps:this.password,
+                code:this.code
+            }
+            register(data)
+            .then((res)=>{
+                console.log(res)
+                if (res.code === 1) {
+                   this.goLogin()
+                } else {
+                    this.$message.error(res.msg);
+                }
+            })
         }
     }
 }

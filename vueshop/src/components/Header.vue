@@ -11,12 +11,12 @@
         <i class="iconfont iconshangjiantou"  @click="showApp" v-else></i>
         <i class="iconfont iconshouye_shugang_shijiantixing"></i>
       </div>
-      <div class="needlogin" v-if="userlist.userid == ''">
+      <div class="needlogin" v-if="name == ''">
         <span class="shop_color" @click="goLogin">登录</span>
-        <span>注册</span>
+        <span @click="goRegister">注册</span>
       </div>
       <div class="logining" v-else>
-        <span>{{userlist.name}}</span>
+        <span>{{name}}</span>
         <i class="iconfont iconshouye_shugang_shijiantixing shop_color"></i>
         <span class="exit_color cp" @click="goLogin">退出</span>
       </div>
@@ -33,10 +33,16 @@
 
 <script>
 import {home} from '../mixins/home'
+import {delLoca} from '../js/common'
 export default {
   name: 'containerHeader',
   props:{
-    userlist:{},
+    name:{
+      type: String,
+      default: function () {
+        return name
+      }
+    },
   },
   mixins:[home],
   data(){
@@ -46,19 +52,21 @@ export default {
     }
   },
   mounted(){
-    let intstyle = document.getElementsByTagName('style');
-    const html = intstyle[0].innerHTML;
-    const newcolor = ".shop_color{color: #0094D0!important;}"
-    intstyle[0].innerHTML=html+newcolor;
+    
   },
   methods:{
     goLogin:function(){
+      delLoca('userName')
+      delLoca('userId')
       this.$router.push("/login");
     },
     showApp:function(){
       this.appimg = this.appdown
       this.appdown = !this.appdown
-    }
+    },
+    goRegister(){
+      this.$router.push({name:'register'})
+    },
   }
 }
 </script>

@@ -40,6 +40,7 @@ export default {
         }
     },
     mounted(){
+        this.init()
         this.getSwiper();
         this.getFoller()
         new Swiper ('.swiper-container', {
@@ -52,6 +53,11 @@ export default {
         })      
     },
     methods:{
+        init(){
+            this.$store.commit('changeHeader',true)
+            this.$store.commit('changeTop',true)
+            this.$store.commit('changeRight',true)
+        },
         getFoller(){
             getIndex()
             .then((res)=>{

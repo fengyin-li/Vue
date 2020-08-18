@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <containerHeader :userlist="userlist" v-show="this.$store.state.header"></containerHeader>
+    <containerHeader v-show="this.$store.state.header" :name="userlist.name"></containerHeader>
     <containerTop v-show="this.$store.state.top"></containerTop>
     <containerRight v-show="this.$store.state.right"></containerRight>
-    <router-view ></router-view>
+    <router-view @changename="changename"></router-view>
   </div>
 </template>
 
@@ -33,6 +33,9 @@ export default {
     saveState(){
       localStorage.setItem("state",JSON.stringify(this.$store.state))
     },
+    changename(val){
+      this.userlist.name = val
+    }
   }
 }
 </script>

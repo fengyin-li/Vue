@@ -51,14 +51,14 @@
                 </div>
                 <ul class="nav_list" @mouseenter="navAdd(2)" @mouseleave="navLeave(2)" v-show="navlistshow">
                     <li v-for="(item,index) in list" :key="index" @mouseenter="changeNav(index)">
-                        <p>{{item.list1}}</p>
-                        <p v-for="item1 in item.list2" :key="item1">{{item1}}</p>
+                        <p>{{item.title}}</p>
+                        <p v-for="item1 in item.children" :key="item1.sortId">{{item1.title}}</p>
                     </li>
                 </ul>
                 <div class="list_view" @mouseenter="navAdd(3)" @mouseleave="navLeave(3)" v-show="navviewshow">
-                    <p>{{navview.list1}}</p>
+                    <p>{{navview.title}}</p>
                     <ul>
-                        <li v-for="(item,index) in navview.list2" :key="index" @click="goSort(item)">{{item}}</li>
+                        <li v-for="(item,index) in navview.children" :key="index" @click="goSort(item.sortId)">{{item.title}}</li>
                     </ul>
                 </div>
             </div>
@@ -68,6 +68,7 @@
 
 <script>
 import {home} from '../mixins/home'
+import {getNav} from '../js/api'
 export default {
     name: 'top',
     mixins:[home],
@@ -100,12 +101,20 @@ export default {
         }
     },
     mounted(){
-        // this.init();
+        this.init();
     },
     methods:{
-        // init(){
-        //     this.$emit('topshow',true)
-        // },
+        init(){
+            getNav()
+            .then(res =>{
+                // console.log(res)
+                if (res.code === 1) {
+                    this.list = res.data
+                } else {
+                    this.$message.error(res.msg);
+                }
+            })
+        },
         navAdd(sum){
             sum == 1 ? this.navall = true
             :sum == 2 ? this.navlist = true

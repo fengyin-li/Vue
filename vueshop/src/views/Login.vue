@@ -50,12 +50,12 @@ export default {
                 if (res.code === 1) {
                     setLoca('userId',res.data.userId)
                     setLoca('userName',res.data.us)
+                    this.$emit('changename',res.data.us)
                     this.goHome()
                 } else {
                     this.$message.error(res.msg);
                 }
             })
-            // this.name == 'root' && this.password == 123456 ? this.$router.push({name:'index'}) : this.$message('请输入正确用户名或密码！');this.name = '';this.password = ''
         }
     }
 }

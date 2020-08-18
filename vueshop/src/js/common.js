@@ -25,6 +25,15 @@ const checkTel = (tel)=>{
         return true
     }
 }
+//验证邮箱--param1:邮箱;
+const checkMail = (mail)=>{
+    let reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/ ;
+    if(reg.test(mail)){ 
+        return true
+    }else{
+        return false
+    }
+}
 //获取localStorage
 const getLoca = (name) =>{
     return localStorage.getItem(name)
@@ -33,6 +42,11 @@ const getLoca = (name) =>{
 const setLoca = (name,val) =>{
    localStorage.setItem(name,val)
 }
+//删除localStorage
+const delLoca = (name) =>{
+    localStorage.removeItem(name)
+}
+
 export {
-    toDecimal,checkTel,getLoca,setLoca
+    toDecimal,checkTel,checkMail,getLoca,setLoca,delLoca
 }
