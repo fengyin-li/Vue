@@ -15,7 +15,7 @@
             </div>
             <div class="adress">
                 <p>联系电话：</p>
-                <el-input placeholder="请输入联系电话" type="tel" v-model="tel"  clearable style="width:300px;" @blur="checkNumber"></el-input>
+                <el-input placeholder="请输入联系电话" type="tel" v-model="tel"  clearable style="width:300px;" ></el-input>
                 <span>*</span>
             </div>
             <div class="adress">
@@ -28,42 +28,22 @@
             border
             style="width: 100%">
                 <el-table-column
-                    prop="name"
+                    prop="goodname"
                     label="商品名称">
                 </el-table-column>
                 <el-table-column
-                    prop="price"
+                    prop="goodprice"
                     label="价格">
                 </el-table-column>
                 <el-table-column
-                    prop="num"
+                    prop="goodnum"
                     label="数量">
-                </el-table-column>
-                <el-table-column
-                    prop="disprice"
-                    label="优惠">
                 </el-table-column>
                 <el-table-column
                     prop="sumprice"
                     label="小计">
                 </el-table-column>
             </el-table>
-            <!-- <div class="header">
-                <p style="width:300px">商品名称</p>
-                <p>价格</p>
-                <p>数量</p>
-                <p>优惠</p>
-                <p>小计</p>
-            </div>
-            <ul>
-                <li v-for="(item,index) in list" :key="index">
-                    <p class="name" :title="item.name">{{item.name}}</p>
-                    <p>{{item.price}}</p>
-                    <p>{{item.num}}</p>
-                    <p>{{item.disprice}}</p>
-                    <p>{{item.sumprice}}</p>
-                </li>
-            </ul> -->
             <div class="title">订单汇总</div>
             <div class="someprice">
                 <span>￥{{price.payprice}}</span>
@@ -84,7 +64,8 @@
 </template>
 <script>
 import {home} from '../mixins/home'
-import {checkTel} from '../js/common'
+import {getLoca} from '../js/common'
+import {giveOrder,getBuyCar} from '../js/api'
 export default {
     name: 'pay',
     mixins:[home],
@@ -94,6 +75,7 @@ export default {
             name:'',
             tel:'',
             remarks:'',
+            id:[],
             list:[{
                 name:'四味珍层冰硼滴眼液(珍视明滴眼液)',
                 price:'23.00',
@@ -104,20 +86,76 @@ export default {
             price:{
                 postage:"包邮",
                 orderprice:23.00,
-                disprice:3.00,
+                disprice:0.00,
                 payprice:20.00
             }
         }
     },
     mounted(){
-        this.changeOK()
+        this.id = this.$route.query.id
+        this.init();
     },
     methods:{
-        checkNumber(){
-            if (!checkTel(this.tel)) {
-              this.$message('联系方式输入不正确！')
-                this.tel = '';
+        init(){
+            let data = {
+                userId:getLoca('userId'),
+                id:this.id,
             }
+            getBuyCar(data)
+            .then(res =>{
+                // console.log(res)
+                if (res.code === 1) {
+                    if (res.data.length > 0) {
+                        this.list = res.data;
+                        let price = 0
+                        for (const val of this.list) {
+                            val.sumprice = val.goodnum * val.goodprice;
+                            price+=val.sumprice
+                        }
+                        this.price.orderprice =price;
+                        this.price.payprice =price;
+                    } else {
+                        this.$message.error('获取购物车失败！');
+                    }
+                } else {
+                    this.$message.error(res.msg);
+                }
+            })
+        },
+        // checkNumber(){
+        //     checkTel(this.tel) ? '' : this.$message.error('手机格式不正确');this.tel = ""
+        // },
+        goOrder(){
+            let data = {
+                userId:getLoca('userId'),
+                buycarIds:this.id,
+                getname:this.name,
+                gettel:this.tel,
+                getadress:this.adress,
+            }
+            if (this.name == "") {
+                this.$message.error('请输入收货人！');
+                return false
+            }
+            if (this.tel == "") {
+                this.$message.error('请输入收货人联系方式！');
+                return false
+            }
+            if (this.adress == "") {
+                this.$message.error('请输入收货地址！');
+                return false
+            }
+            giveOrder(data)
+            .then(res =>{
+                // console.log(res)
+                if (res.code === 1) {
+                    this.$router.push({name:'userCenter',params:{
+                        id:"1"
+                    }})
+                } else {
+                    this.$message.error(res.msg);
+                }
+            })
         }
     },
 }

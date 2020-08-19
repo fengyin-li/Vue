@@ -33,7 +33,7 @@
         border
         style="width: 100%">
             <el-table-column
-                prop="name"
+                prop="id"
                 label="订单编号"
                 align="center">
             </el-table-column>
@@ -43,12 +43,12 @@
                 align="center">
             </el-table-column>
             <el-table-column
-                prop="name"
+                prop="getname"
                 label="收货人"
                 align="center">
             </el-table-column>
             <el-table-column
-                prop="status"
+                prop="type"
                 label="订单状态"
                 align="center">
             </el-table-column>
@@ -67,6 +67,8 @@
 </template>
 <script>
 import {home} from '../../mixins/home'
+import {getLoca} from '../../js/common'
+import {getOrder} from '../../js/api'
 export default {
     name: 'order',
     mixins:[home],
@@ -94,9 +96,23 @@ export default {
         }
     },
     mounted(){
-        this.changeOK()
+        this.init()
     },
     methods:{
+        init(){
+            let data = {
+                userId:getLoca('userId'),
+            }
+            getOrder(data)
+            .then(res =>{
+                // console.log(res)
+                if (res.code === 1) {
+                    this.list = res.data;
+                } else {
+                    this.$message.error(res.msg);
+                }
+            })
+        },
         goOrderView(id){
             this.$router.push({path:'/orderview',query:{id:id}})
         }

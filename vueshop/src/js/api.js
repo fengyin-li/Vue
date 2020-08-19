@@ -38,6 +38,13 @@ const getSwiper = (data) =>post('swiper/index',data)//获取轮播
 const getNav = (data) =>post('sort/getList',data)//获取轮播
 const getGood = (data) =>post('good/getGoodInfo',data)//获取商品信息
 const addBuyCar = (data) =>post('buycar/addList',data)//添加购物车
+const getBuyCar = (data) =>post('buycar/getlist',data)//获取购物车
+const changeBuyCar = (data) =>post('buycar/changeList',data)//修改购物车
+const delBuyCar = (data) =>post('buycar/delList',data)//删除购物车
+const giveOrder = (data) =>post('buycar/giveOrder',data)//生成订单
+const getOrder = (data) =>post('order/getList',data)//获取订单列表
+const getOrderView = (data) =>post('order/getListView',data)//获取订单详情
 export {
-    login,registerCode,register,getIndex,getSwiper,getGood,addBuyCar,getNav
+    login,registerCode,register,getIndex,getSwiper,getGood,addBuyCar,getNav,getBuyCar,changeBuyCar,delBuyCar,
+    giveOrder,getOrder,getOrderView
 }

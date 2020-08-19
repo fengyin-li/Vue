@@ -10,36 +10,41 @@
         </div>
         <div class="header">订单汇总</div>
         <div class="view">
-            <p>订单编号：{{list.id}}</p>
+            <p>订单编号：{{list.orderId}}</p>
             <p>订单金额：{{list.orderprice}}</p>
-            <p>实付金额：{{list.sumprice}}</p>
-            <p>收货人：{{list.name}}</p>
-            <p>订单优惠金额：{{list.disprice}}</p>
+            <p>实付金额：{{list.orderpayprice}}</p>
+            <p>收货人：{{list.getname}}</p>
+            <p>订单优惠金额：{{list.orderdisprice}}</p>
             <p>订单状态：{{list.status}}</p>
         </div>
         <div class="header">订单列表</div>
         <el-table
-            :data="list.goodlist"
+            :data="list.view"
             border
             style="width: 100%">
             <el-table-column
-                prop="name"
+                prop="goodname"
                 label="商品名称">
             </el-table-column>
             <el-table-column
-                prop="price"
+                prop="goodcompany"
+                label="生产厂家">
+            </el-table-column>
+            <el-table-column
+                prop="goodprice"
                 label="价格">
             </el-table-column>
             <el-table-column
-                prop="num"
+                prop="goodnum"
                 label="数量">
             </el-table-column>
+           
             <el-table-column
-                prop="disprice"
-                label="优惠">
+                prop="goodspec"
+                label="规格">
             </el-table-column>
             <el-table-column
-                prop="sumprice"
+                prop="goodprices"
                 label="小计">
             </el-table-column>
         </el-table>
@@ -47,6 +52,8 @@
 </template>
 <script>
 import {home} from '../../mixins/home'
+import {getLoca} from '../../js/common'
+import {getOrderView} from '../../js/api'
 export default {
     name: 'orderview',
     mixins:[home],
@@ -70,10 +77,24 @@ export default {
         }
     },
     mounted(){
-        this.changeOK()
+        this.init()
     },
     methods:{
-        
+        init(){
+            let data = {
+                userId:getLoca('userId'),
+                orderId:this.$route.query.id,
+            }
+            getOrderView(data)
+            .then(res =>{
+                console.log(res)
+                if (res.code === 1) {
+                    this.list = res.data;
+                } else {
+                    this.$message.error(res.msg);
+                }
+            })
+        },
     },
 }
 </script>

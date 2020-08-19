@@ -12,17 +12,17 @@
         <ul>
             <li v-for="(item,index) in list" :key="index">
                 <div class="chose" :class="{active:item.status}" @click="checkOne(index)"></div>
-                <img :src="item.img" alt="">
-                <div class="name">{{item.name}}</div>
-                <div class="price">{{item.price}}</div>
+                <img :src="item.img">
+                <div class="name">{{item.goodname}}</div>
+                <div class="price">{{item.goodprice}}</div>
                 <div class="num">
                     <div class="reduce" @click="reduceNum(index)">-</div>
-                    <input type="tel" v-model="item.num">
+                    <input type="tel" v-model="item.goodnum">
                     <div class="add" @click="addNum(index)">+</div>
                 </div>
-                <div class="disprice">{{item.disprice}}</div>
+                <div class="disprice">0</div>
                 <div class="sumprice">{{ getSumprice(index) }}</div>
-                <div class="del">删除</div>
+                <div class="del" @click="delBuyCar(item.id)">删除</div>
             </li>
         </ul>
 
@@ -43,12 +43,12 @@
     <div class="goods_sumprice">
         <div class="left cp" @click="goHome">返回首页</div>
         <div class="right">
-            <div class="text">
+            <!-- <div class="text">
                 <p>一共选择了</p>
                 <span>{{wholeNum}}</span>
                 <p>件商品 商品总价(不含运费)：</p>
                 <span class="finprice">￥{{wholeSumprice}}</span>
-            </div>
+            </div> -->
             <div class="button" @click="giveMoney">去结算</div>
         </div>
     </div>
@@ -57,7 +57,8 @@
 
 <script>
 import {home} from '../mixins/home'
-import {toDecimal} from '../js/common'
+import {toDecimal,getLoca} from '../js/common'
+import {getBuyCar,changeBuyCar,delBuyCar} from '../js/api'
 export default {
     name: 'buycar',
     mixins:[home],
@@ -67,40 +68,27 @@ export default {
             num:1,
             wholestatus:false,
             list:[
-                {
-                    status:false,
-                    name:'四味珍层冰硼滴眼液(珍视明滴眼液)',
-                    img:'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=23729408,3616211550&fm=26&gp=0.jpg',
-                    price:'23.00',
-                    num:1,
-                    disprice:'3.00',
-                    // sumprice:'20.00',
-                },{
-                    status:false,
-                    name:'999 小儿感冒颗粒 6g*10袋',
-                    img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587705410503&di=951e554bd62feb4b26658d50719f4cf2&imgtype=0&src=http%3A%2F%2Fimage.jianke.com%2Fsuo%2Fupload%2Fprodimage%2F201012%2F201012415512172%2521320x320.jpg',
-                    price:'12.00',
-                    num:1,
-                    disprice:'0.00',
-                    // sumprice:'12.00',
-                },
             ],
         }
     },
     computed:{
         getSumprice(){
             return (index) =>{
-                return toDecimal(this.list[index].num * Number(this.list[index].price) - Number(this.list[index].disprice))
+                return toDecimal(this.list[index].goodnum * Number(this.list[index].goodprice) - 0)
             }
         },
         wholeDisprice(){
-            return toDecimal(this.list.filter(item => item.status).reduce(((total,v) => total + Number(v.disprice)),0))
+            return toDecimal(this.list.filter(item => item.status).reduce(((total) => total + 0),0))
         },
         wholeNum(){
-            return this.list.filter(item => item.status).length
+            let num = 0
+            for (const val of this.list) {
+                val.status?num++:''
+            }
+            return num
         },
         wholeSumprice(){
-            return toDecimal(this.list.filter(item => item.status).reduce(((total,v) => total + (v.num * Number(v.price)) - Number(v.disprice)),0))
+            return toDecimal(this.list.filter(item => item.status).reduce(((total,v) => total + (v.goodnum * Number(v.goodprice))),0))
         },
     },
     mounted(){
@@ -108,18 +96,80 @@ export default {
     },
     methods:{
         init(){
-            this.changeOK()
+            let data = {
+                userId:getLoca('userId')
+            }
+            getBuyCar(data)
+            .then(res =>{
+                console.log(res)
+                if (res.code === 1) {
+                    this.list = res.data;
+                    for (const val of this.list) {
+                        val.status = false
+                    }
+                } else {
+                    this.$message.error(res.msg);
+                }
+            })
         },
-        addNum(index){
-            this.list[index].num += 1
+        addNum(index){//有问题库存未返回
+            let list = this.list[index];
+            let newVal = Number(list.goodnum) + Number(list.goodspecs)
+            this.list[index].goodnum = newVal
+            this.changeBuyCar(list.id,list.goodspecs,newVal,list.goodId)
         },
         reduceNum(index){
-            this.list[index].num >= 2 ? this.list[index].num -= 1 : ''
+            let list = this.list[index];
+            let newVal = Number(list.goodnum) - Number(list.goodspecs)
+            this.list[index].goodnum = newVal < list.specs ? list.goodnum : newVal
+            this.changeBuyCar(list.id,list.goodspecs,this.list[index].goodnum,list.goodId)
+        },
+        changeBuyCar(buycarId,goodspecs,num,goodId){
+            let data = {
+                userId:getLoca('userId'),
+                buycarId:buycarId,
+                goodspecs:goodspecs,
+                goodnum:num,
+                goodId:goodId,
+            }
+            changeBuyCar(data)
+            .then(res =>{
+                console.log(res)
+                if (res.code === 0) {
+                    this.$message.error(res.msg);
+                    this.init()
+                }
+            })
+        },
+        delBuyCar(id){
+            let data = {
+                userId:getLoca('userId'),
+                id:id,
+            }
+            delBuyCar(data)
+            .then(res =>{
+                console.log(res)
+                if (res.code === 1) {
+                    this.init()
+                }else{
+                    this.$message.error(res.msg);
+                }
+            })
         },
         checkOne(index){
             this.list[index].status = !this.list[index].status;
             let status = true;
-            this.list.map(v =>{ !v.status ? status = false : ""});
+            let sum = 0;
+            let num = 0;
+            this.list.map(v =>{ 
+                if (v.status) {
+                   sum++;
+                } else {
+                    status = false
+                }
+                num++
+            });
+            num == sum ? status = true : ''
             this.wholestatus = status;
         },
         checkWhole(){
@@ -127,11 +177,8 @@ export default {
             this.list.map(v=>{v.status = this.wholestatus})
         },
         giveMoney(){
-            let data = {
-                name:this.list.filter(item => item.status).map(v=> v.name),
-                price:this.wholeSumprice,
-            };
-            data.name != '' && data.price > 0 ? this.$router.push({name:'pay'}) :  this.$notify({
+            let ids=this.list.filter(item => item.status).map(v=> v.id);
+            ids.length != 0 ? this.$router.push({path:'/pay',query:{id:JSON.stringify(ids)}}) :  this.$notify({
                 message: this.$createElement('i', { style: 'color: #0094D0'}, '请选择结算对象！')
             });
             // alert(JSON.stringify(data))

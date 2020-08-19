@@ -43,14 +43,7 @@ export default {
         this.init()
         this.getSwiper();
         this.getFoller()
-        new Swiper ('.swiper-container', {
-            loop: true,
-            speed: 500, 
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,  
-            },
-        })      
+             
     },
     methods:{
         init(){
@@ -74,7 +67,15 @@ export default {
             .then((res)=>{
                 // console.log(res)
                 if (res.code === 1) {
-                    this.list = res.data
+                    this.list = res.data;
+                    new Swiper ('.swiper-container', {
+                        loop: true,
+                        speed: 500, 
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,  
+                        },
+                    }) 
                 } else {
                     this.$message.error(res.msg);
                 }
